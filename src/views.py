@@ -18,7 +18,8 @@ def home_page(date_str: str) -> json:
 
     user_settings = utils.read_json_file(os.path.join(PATH, "user_settings.json"))
     #currency_rates = utils.get_currency_rates_api(user_settings.get("user_currencies"))
-    return
+    #stock_prices = utils.get_stock_prices(user_settings.get("user_stocks"))
+    return stock_prices
 
 
 print(home_page("2021-12-31 16:44:00"))

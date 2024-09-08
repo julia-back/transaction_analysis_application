@@ -91,9 +91,22 @@ def get_currency_rates_api(rates: list):
         result.append(dict_rete)
     return result
 
-def get_stock_prices():
+
+def get_stock_prices(stocks: list):
     """Получает стоимость акций"""
-    pass
+    dotenv.load_dotenv()
+    api_key = os.getenv("API_KEY_STOCK_PRICES")
+    result = []
+    for stock in stocks:
+        url = (f"https://www.alphavantage.co/query?"
+               f"function=TIME_SERIES_DAILY&symbol={stock}&apikey={api_key}&outputsize=compact")
+        response = requests.get(url)
+        stock_info = response.json()
+        dict_stocks = dict()
+        dict_stocks["stock"] = stock
+        dict_stocks["price"] = round(stock_info.get("Time Series (Daily)").get("2024-09-06").get("1. open"), 2)
+        result.append(dict_stocks)
+    return result
 
 
 # Запрос по курсу валют
