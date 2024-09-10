@@ -1,25 +1,34 @@
 import json
-from src import utils
-from config import PATH, DATA_PATH
 import os
 
+from config import DATA_PATH, PATH
+from src import utils
 
-def home_page(date_str: str) -> json:
+
+def home_page(file_path, date_str: str) -> json:
     """
     Принимает строку с датой в формате YYYY-MM-DD HH:MM:SS
     Возвращает JSON-ответ
     """
-    greeting = utils.get_greeting_by_date(date_str)
-
-    df = utils.read_excel_file(os.path.join(DATA_PATH, "operations.xlsx"))
-    filter_df = utils.filter_by_date(df, date_str)
-    info_by_cards = utils.get_info_by_cards(filter_df)
-    top_5 = utils.get_top_5_operations_by_summ(filter_df)
-
+    greeting = str(utils.get_greeting_by_date())
+    total_df = utils.read_excel_file(file_path)
+    filter_df_by_date = utils.filter_by_date(total_df, date_str)
+    df_expenses = utils.filter_by_expenses(filter_df_by_date)
+    info_by_cards = utils.get_info_by_cards(df_expenses)
+    top_5 = utils.get_top_5_operations_by_summ(filter_df_by_date)
     user_settings = utils.read_json_file(os.path.join(PATH, "user_settings.json"))
-    #currency_rates = utils.get_currency_rates_api(user_settings.get("user_currencies"))
-    #stock_prices = utils.get_stock_prices(user_settings.get("user_stocks"))
-    return stock_prices
+    # currency_rates = utils.get_currency_rates_api(user_settings.get("user_currencies"))
+    # stock_prices = utils.get_stock_prices(user_settings.get("user_stocks"))
+    total_dict = dict()
+    total_dict["greeting"] = greeting
+    total_dict["cards"] = info_by_cards
+    total_dict["top_transactions"] = top_5
+    # total_dict["currency_rates"] = currency_rates
+    # total_dict["stock_prices"] = stock_prices
+    json_response = json.dumps(total_dict, ensure_ascii=False, indent=4)
+    return json_response
 
 
-print(home_page("2021-12-31 16:44:00"))
+if __name__ == "__main__":
+    file = os.path.join(DATA_PATH, "operations.xlsx")
+    print(home_page(file, "2021-12-31 16:44:00"))
