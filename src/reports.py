@@ -6,7 +6,7 @@ import os
 from config import DATA_PATH
 
 
-def spending_by_category(expenses: pd.DataFrame, category: str, date: str = datetime.now()) -> pd.DataFrame:
+def spending_by_category(expenses: pd.DataFrame, category: str, date: str = datetime.now()) -> json:
     """
     Считает траты по категориям за последние 3 месяца
     Принимает датафрейм с транзакциями, название категории и опционально дату в формате YYYY.MM.DD
@@ -20,7 +20,7 @@ def spending_by_category(expenses: pd.DataFrame, category: str, date: str = date
     expenses = expenses[expenses["Категория"] == category]
     category_sum = expenses.groupby("Категория", as_index=False).agg({"Сумма операции с округлением": "sum"})
     result = pd.DataFrame({"category": category, "amount": category_sum.loc[:, "Сумма операции с округлением"]})
-    return result
+    return result.to_json(orient="records", force_ascii=False)
 
 
 if __name__ == "__main__":
