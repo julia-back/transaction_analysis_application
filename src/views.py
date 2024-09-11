@@ -1,7 +1,7 @@
 import json
 import os
 
-from config import DATA_PATH, PATH
+from config import PATH
 from src import utils
 
 
@@ -27,8 +27,3 @@ def home_page(file_path, date_str: str) -> json:
     # total_dict["stock_prices"] = stock_prices
     json_response = json.dumps(total_dict, ensure_ascii=False, indent=4)
     return json_response
-
-
-if __name__ == "__main__":
-    file = os.path.join(DATA_PATH, "operations.xlsx")
-    print(home_page(file, "2021-12-31 16:44:00"))

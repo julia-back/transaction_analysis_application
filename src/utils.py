@@ -129,6 +129,7 @@ def get_stock_prices(stocks: list) -> list[dict]:
 
 
 def get_list_expenses(file_path: str) -> list[dict]:
+    """Принимает фатафрейм, возвращает датафрейм с расходами (отрицательными суммами операций)"""
     df = read_excel_file(file_path)
     list_data = df.to_dict(orient="records")
     expenses = list(filter(lambda x: x.get("Сумма операции") < 0, list_data))

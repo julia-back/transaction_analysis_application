@@ -1,9 +1,5 @@
 import json
-import os
 from datetime import datetime
-
-import utils
-from config import DATA_PATH
 
 
 def cashback_categories(data: list[dict], year: str | int, month: str | int) -> json:
@@ -33,11 +29,6 @@ def cashback_categories(data: list[dict], year: str | int, month: str | int) -> 
     sort_dict = dict(sort_list)
     result = json.dumps(sort_dict, indent=4, ensure_ascii=False)
     return result
-
-
-if __name__ == "__main__":
-    operations_list = utils.get_list_expenses(os.path.join(DATA_PATH, "operations.xlsx"))
-    print(cashback_categories(operations_list, 2021, 12))
 
 
 # Функция сервиса «Выгодные категории повышенного кешбэка» использует библиотеку
