@@ -6,12 +6,6 @@ import utils
 from config import DATA_PATH
 
 
-def get_list_transactions(file_path: str) -> list[dict]:
-    df = utils.read_excel_file(file_path)
-    list_data = df.to_dict(orient="records")
-    return list_data
-
-
 def cashback_categories(data: list[dict], year: str | int, month: str | int) -> json:
     """
     Считает размер кешбэка для каждой категории
@@ -42,7 +36,7 @@ def cashback_categories(data: list[dict], year: str | int, month: str | int) -> 
 
 
 if __name__ == "__main__":
-    operations_list = get_list_transactions(os.path.join(DATA_PATH, "operations.xlsx"))
+    operations_list = utils.get_list_expenses(os.path.join(DATA_PATH, "operations.xlsx"))
     print(cashback_categories(operations_list, 2021, 12))
 
 
