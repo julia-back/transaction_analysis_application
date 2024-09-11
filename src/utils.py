@@ -1,10 +1,17 @@
 import datetime
 import json
 import os
-
+import logging
 import dotenv
 import pandas as pd
 import requests
+from config import LOGS_PATH
+
+
+logging.basicConfig(level=logging.DEBUG, filename=os.path.join(LOGS_PATH, "logs.txt"),
+                    filemode="a",
+                    format="%(asctime)s %(levelname)s: %(name)s - %(message)s")
+logger = logging.getLogger(f"{__name__}.py")
 
 
 def get_greeting_by_date() -> str:
@@ -20,14 +27,16 @@ def get_greeting_by_date() -> str:
         greeting = "Добрый день"
     else:
         greeting = "Добрый вечер"
+    logger.info("Received greeting string")
     return greeting
 
 
 def read_excel_file(file_path: str) -> pd.DataFrame:
     """
-    Считывает json-данные из файла. Принимает путь до файла. Возвращает дата фрейм.
+    Считывает данные из файла. Принимает путь до файла. Возвращает дата фрейм.
     """
     df = pd.read_excel(file_path)
+    logger.info("Received DataFrame by Excel-file")
     return df
 
 
@@ -41,6 +50,7 @@ def filter_by_date(df: pd.DataFrame, date_str: str) -> pd.DataFrame:
     date_start = datetime.datetime(date_end.year, date_end.month, 1, 00, 00, 00)
     df["Дата операции"] = pd.to_datetime(df["Дата операции"], format="%d.%m.%Y %H:%M:%S")
     filter_df = df.loc[(df["Дата операции"] >= date_start) & (df["Дата операции"] <= date_end)]
+    logger.info("Received filter DataFrame by date")
     return filter_df
 
 
@@ -49,6 +59,7 @@ def filter_by_expenses(df: pd.DataFrame) -> pd.DataFrame:
     Принимает датафрейм. Возвращает датафрейм с расходами (отрицательными суммами операций).
     """
     filter_df = df.loc[df["Сумма операции"] < 0]
+    logger.info("Received filter DataFrame by expenses")
     return filter_df
 
 
@@ -69,6 +80,7 @@ def get_info_by_cards(df: pd.DataFrame) -> list[dict]:
         cards_sum_cashback["cashback"] = ((str(round(sum_operations_by_cards.get("Сумма операции")
                                                      .get(card) / 100, 2))).replace("-", ""))
         result.append(cards_sum_cashback)
+    logger.info("Received JSON-response by cards info")
     return result
 
 
@@ -84,6 +96,7 @@ def get_top_5_operations_by_summ(df: pd.DataFrame) -> list[dict]:
         dict_for_row["category"] = row["Категория"]
         dict_for_row["description"] = row["Описание"]
         result.append(dict_for_row)
+    logger.info("Received JSON-response by top-5 operations")
     return result
 
 
@@ -91,6 +104,7 @@ def read_json_file(file_path: str) -> dict:
     """Читает json-файл"""
     with open(file_path) as file:
         file_info = json.load(file)
+    logger.info("Received DataFrame by JSON-file")
     return file_info
 
 
@@ -110,6 +124,7 @@ def get_currency_rates_api(rates: list) -> list[dict]:
         dict_rete["currency"] = rate
         dict_rete["rate"] = round(float(quotes), 2)
         result.append(dict_rete)
+    logger.info("Received JSON-response to currency rates info by api")
     return result
 
 
@@ -125,6 +140,7 @@ def get_stock_prices(stocks: list) -> list[dict]:
         dict_stocks["stock"] = stock
         dict_stocks["price"] = round(float(response[0].get("price")), 2)
         result.append(dict_stocks)
+    logger.info("Received JSON-response to stock prices info by api")
     return result
 
 
@@ -133,9 +149,5 @@ def get_list_expenses(file_path: str) -> list[dict]:
     df = read_excel_file(file_path)
     list_data = df.to_dict(orient="records")
     expenses = list(filter(lambda x: x.get("Сумма операции") < 0, list_data))
+    logger.info("Received list expenses by Excel-file")
     return expenses
-
-
-# Логи
-# Вспомогательные функции, необходимые для работы функции страницы «Главная», используют библиотеку
-# logging

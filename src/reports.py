@@ -3,7 +3,14 @@ from functools import wraps
 import pandas as pd
 from datetime import datetime, timedelta
 import os
-from config import DATA_PATH
+from config import DATA_PATH, LOGS_PATH
+import logging
+import json
+
+
+logging.basicConfig(level=logging.DEBUG, filename=os.path.join(LOGS_PATH, "logs.txt"), filemode="a",
+                    format="%(asctime)s %(levelname)s: %(name)s - %(message)s")
+logger = logging.getLogger(f"{__name__}.py")
 
 
 def write_to_json_file(file_path: str = os.path.join(DATA_PATH, "report.json")):
@@ -11,11 +18,18 @@ def write_to_json_file(file_path: str = os.path.join(DATA_PATH, "report.json")):
     def wrapper(func):
         @wraps(func)
         def inner(*args, **kwargs):
+            logger.info("Start decorator")
             result = func(*args, **kwargs)
             if type(result) is pd.DataFrame:
                 result_json = result.to_json(orient="records", indent=4, force_ascii=False)
                 with open(file_path, "w", encoding="utf-8") as file:
-                    file.write(result_json, )
+                    file.write(result_json)
+            elif type(result) is json:
+                with open(file_path, "w", encoding="utf-8") as file:
+                    file.write(result)
+            else:
+                logger.error("Type data is not supported")
+            logger.info("Successful finish decorator")
             return result
         return inner
     return wrapper
@@ -28,6 +42,7 @@ def spending_by_category(expenses: pd.DataFrame, category: str, date: str = date
     Принимает датафрейм с транзакциями, название категории и опционально дату в формате YYYY.MM.DD
     Если дата не передана, то берется текущая дата
     """
+    logger.info("Start func")
     if type(date) is str:
         date = datetime.strptime(date, "%Y.%m.%d")
     date_start = date - timedelta(days=90)
@@ -36,8 +51,5 @@ def spending_by_category(expenses: pd.DataFrame, category: str, date: str = date
     expenses = expenses[expenses["Категория"] == category]
     # category_sum = expenses.groupby("Категория", as_index=False).agg({"Сумма операции с округлением": "sum"})
     # result = pd.DataFrame({"category": category, "expenses": category_sum.loc[:, "Сумма операции с округлением"]})
+    logger.info("Successful finish func")
     return expenses
-
-
-# Функция сервиса «Траты по категории» использует библиотеку
-# logging
