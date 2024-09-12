@@ -9,7 +9,7 @@ import requests
 
 from config import LOGS_PATH
 
-logging.basicConfig(level=logging.DEBUG, filename=os.path.join(LOGS_PATH, "logs.txt"),
+logging.basicConfig(level=logging.DEBUG, filename=os.path.join(LOGS_PATH, "logs.log"),
                     filemode="a",
                     format="%(asctime)s %(levelname)s: %(name)s - %(message)s")
 logger = logging.getLogger(f"{__name__}.py")

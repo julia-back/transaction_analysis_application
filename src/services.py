@@ -6,7 +6,7 @@ from datetime import datetime
 from config import LOGS_PATH
 
 logger = logging.getLogger(f"{__name__}.py")
-handler = logging.FileHandler(os.path.join(LOGS_PATH, "logs.txt"), mode="a")
+handler = logging.FileHandler(os.path.join(LOGS_PATH, "logs.log"), mode="a")
 formatter = logging.Formatter("%(asctime)s %(levelname)s: %(name)s - %(message)s")
 handler.setFormatter(formatter)
 logger.addHandler(handler)

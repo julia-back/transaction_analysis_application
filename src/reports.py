@@ -8,7 +8,7 @@ import pandas as pd
 
 from config import DATA_PATH, LOGS_PATH
 
-logging.basicConfig(level=logging.DEBUG, filename=os.path.join(LOGS_PATH, "logs.txt"), filemode="a",
+logging.basicConfig(level=logging.DEBUG, filename=os.path.join(LOGS_PATH, "logs.log"), filemode="a",
                     format="%(asctime)s %(levelname)s: %(name)s - %(message)s")
 logger = logging.getLogger(f"{__name__}.py")
 
