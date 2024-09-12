@@ -17,3 +17,22 @@
 2024-09-11 23:19:41,462 INFO: reports.py - Start func
 2024-09-11 23:19:41,485 INFO: reports.py - Successful finish func
 2024-09-11 23:19:41,485 INFO: reports.py - Successful finish decorator
+2024-09-12 00:54:36,680 INFO: src.utils.py - Received greeting string
+2024-09-12 00:54:37,298 INFO: src.utils.py - Received DataFrame by Excel-file
+2024-09-12 00:54:37,311 INFO: src.utils.py - Received filter DataFrame by date
+2024-09-12 00:54:37,311 INFO: src.utils.py - Received filter DataFrame by expenses
+2024-09-12 00:54:37,313 INFO: src.utils.py - Received JSON-response by cards info
+2024-09-12 00:54:37,314 INFO: src.utils.py - Received JSON-response by top-5 operations
+2024-09-12 00:54:37,314 INFO: src.utils.py - Received DataFrame by JSON-file
+2024-09-12 00:54:37,866 INFO: utils.py - Received DataFrame by Excel-file
+2024-09-12 00:54:37,884 INFO: utils.py - Received list expenses by Excel-file
+2024-09-12 00:54:37,884 INFO: services.py - Start
+2024-09-12 00:54:37,884 INFO: services.py - Start
+2024-09-12 00:54:37,911 INFO: services.py - Successful finish
+2024-09-12 00:54:37,911 INFO: services.py - Successful finish
+2024-09-12 00:54:38,446 INFO: utils.py - Received DataFrame by Excel-file
+2024-09-12 00:54:38,447 INFO: utils.py - Received filter DataFrame by expenses
+2024-09-12 00:54:38,447 INFO: reports.py - Start decorator
+2024-09-12 00:54:38,447 INFO: reports.py - Start func
+2024-09-12 00:54:38,470 INFO: reports.py - Successful finish func
+2024-09-12 00:54:38,470 INFO: reports.py - Successful finish decorator

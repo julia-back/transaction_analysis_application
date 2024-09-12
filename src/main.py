@@ -1,9 +1,10 @@
 import os
+
+import utils
 from config import DATA_PATH
 from reports import spending_by_category
-from views import home_page
 from services import cashback_categories
-import utils
+from views import home_page
 
 
 def main():

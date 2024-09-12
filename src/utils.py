@@ -1,12 +1,13 @@
 import datetime
 import json
-import os
 import logging
+import os
+
 import dotenv
 import pandas as pd
 import requests
-from config import LOGS_PATH
 
+from config import LOGS_PATH
 
 logging.basicConfig(level=logging.DEBUG, filename=os.path.join(LOGS_PATH, "logs.txt"),
                     filemode="a",

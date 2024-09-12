@@ -1,9 +1,9 @@
 import json
-from datetime import datetime
 import logging
 import os
-from config import LOGS_PATH
+from datetime import datetime
 
+from config import LOGS_PATH
 
 logger = logging.getLogger(f"{__name__}.py")
 handler = logging.FileHandler(os.path.join(LOGS_PATH, "logs.txt"), mode="a")
