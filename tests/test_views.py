@@ -1,5 +1,5 @@
 from src import views
-from tests.conftest import json_response, df
+from tests.conftest import json_response
 from unittest.mock import patch, Mock
 import pandas as pd
 
