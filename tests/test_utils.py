@@ -5,7 +5,6 @@ import pandas as pd
 import pytest
 
 from src import utils
-from tests.conftest import df, df_cards, df_top_5
 
 
 @pytest.mark.parametrize(
