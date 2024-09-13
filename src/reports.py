@@ -8,13 +8,18 @@ import pandas as pd
 
 from config import DATA_PATH, LOGS_PATH
 
-logging.basicConfig(level=logging.DEBUG, filename=os.path.join(LOGS_PATH, "logs.log"), filemode="a",
-                    format="%(asctime)s %(levelname)s: %(name)s - %(message)s")
+logging.basicConfig(
+    level=logging.DEBUG,
+    filename=os.path.join(LOGS_PATH, "logs.log"),
+    filemode="a",
+    format="%(asctime)s %(levelname)s: %(name)s - %(message)s",
+)
 logger = logging.getLogger(f"{__name__}.py")
 
 
 def write_to_json_file(file_path: str = os.path.join(DATA_PATH, "report.json")):
     """Записывает результат функции в json-файл, принимает пусть до файла опционально"""
+
     def wrapper(func):
         @wraps(func)
         def inner(*args, **kwargs):
@@ -31,7 +36,9 @@ def write_to_json_file(file_path: str = os.path.join(DATA_PATH, "report.json")):
                 logger.error("Type data is not supported")
             logger.info("Successful finish decorator")
             return result
+
         return inner
+
     return wrapper
 
 

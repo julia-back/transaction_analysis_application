@@ -9,9 +9,12 @@ import requests
 
 from config import LOGS_PATH
 
-logging.basicConfig(level=logging.DEBUG, filename=os.path.join(LOGS_PATH, "logs.log"),
-                    filemode="a",
-                    format="%(asctime)s %(levelname)s: %(name)s - %(message)s")
+logging.basicConfig(
+    level=logging.DEBUG,
+    filename=os.path.join(LOGS_PATH, "logs.log"),
+    filemode="a",
+    format="%(asctime)s %(levelname)s: %(name)s - %(message)s",
+)
 logger = logging.getLogger(f"{__name__}.py")
 
 
@@ -76,10 +79,12 @@ def get_info_by_cards(df: pd.DataFrame) -> list[dict]:
     for card in cards_list:
         cards_sum_cashback = dict()
         cards_sum_cashback["last_digits"] = card.replace("*", "")
-        cards_sum_cashback["total_spent"] = ((str(round(sum_operations_by_cards.get("Сумма операции")
-                                                        .get(card), 2))).replace("-", ""))
-        cards_sum_cashback["cashback"] = ((str(round(sum_operations_by_cards.get("Сумма операции")
-                                                     .get(card) / 100, 2))).replace("-", ""))
+        cards_sum_cashback["total_spent"] = (
+            str(round(sum_operations_by_cards.get("Сумма операции").get(card), 2))
+        ).replace("-", "")
+        cards_sum_cashback["cashback"] = (
+            str(round(sum_operations_by_cards.get("Сумма операции").get(card) / 100, 2))
+        ).replace("-", "")
         result.append(cards_sum_cashback)
     logger.info("Received JSON-response by cards info")
     return result
