@@ -26,9 +26,7 @@ def write_to_json_file(file_path: str = os.path.join(DATA_PATH, "report.json")):
             logger.info("Start decorator")
             result = func(*args, **kwargs)
             if type(result) is pd.DataFrame:
-                result_json = result.to_json(orient="records", indent=4, force_ascii=False)
-                with open(file_path, "w", encoding="utf-8") as file:
-                    file.write(result_json)
+                result.to_json(path_or_buf=file_path, orient="records", indent=4, force_ascii=False)
             elif type(result) is json:
                 with open(file_path, "w", encoding="utf-8") as file:
                     file.write(result)
@@ -51,7 +49,7 @@ def spending_by_category(expenses: pd.DataFrame, category: str, date: str = date
     """
     logger.info("Start func")
     if type(date) is str:
-        date = datetime.strptime(date, "%Y.%m.%d")
+        date = datetime.strptime(date, "%Y.%m.%d").replace(hour=23, minute=59, second=59)
     date_start = date - timedelta(days=90)
     expenses.loc[:, "Дата операции"] = pd.to_datetime(expenses["Дата операции"], format="%d.%m.%Y %H:%M:%S")
     expenses = expenses[(expenses["Дата операции"] >= date_start) & (expenses["Дата операции"] <= date)]
